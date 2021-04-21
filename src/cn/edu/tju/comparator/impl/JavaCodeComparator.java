@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.HashSet;
-
 import cn.edu.tju.comparator.Compare;
-import cn.edu.tju.utils.CommentsUtils;
-import compare.java.LD;
+import cn.edu.tju.utils.CommentUtils;
+import cn.edu.tju.utils.LDUtils;
 
 public class JavaCodeComparator extends Compare {
     private static JavaCodeComparator cmp = new JavaCodeComparator();
@@ -24,7 +23,7 @@ public class JavaCodeComparator extends Compare {
             "|return|short|signed|sizeof|static|static_cast|struct|switch|template|this|throw|true|try|type_info|typedef" +
             "|typeid|typename|union|unsigned|using|virtual|void|volatile|wchar_t|while";
     private HashSet<String> keyWordSet = new HashSet<>();
-    private LD ld = new LD();
+    private LDUtils ld = new LDUtils();
 
     public JavaCodeComparator() {
         String list[] = keyWords.split("\\|");
@@ -76,7 +75,7 @@ public class JavaCodeComparator extends Compare {
                 buf.append(line + "\n");
             }
             //删除所有注释
-            code = CommentsUtils.delComments(buf.toString());
+            code = CommentUtils.delComments(buf.toString());
             int pos1 = 0, pos2 = 0;
             int len = code.length();
             boolean isString = false;

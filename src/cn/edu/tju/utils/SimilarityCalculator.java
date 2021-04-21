@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class SimilarityCalculator {
@@ -34,7 +35,7 @@ public class SimilarityCalculator {
         String path1 = "D:\\GraduationProject\\test\\test1.java";
         String path2 = "D:\\GraduationProject\\test\\test2.java";
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), "UTF-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), StandardCharsets.UTF_8));
         StringBuffer buf = new StringBuffer();
         String line;
         while ((line = br.readLine()) != null) {
