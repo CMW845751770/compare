@@ -1,9 +1,8 @@
-package compare.java;
+package cn.edu.tju.utils;
 
-import java.io.*;
 import java.util.HashSet;
 
-public class DelVariables {
+public class VariablesUtils {
     private String keyWords = "System|abstract|assert|boolean|break|byte|case|catch|char|class|continue|" +
             "default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|int|" +
             "interface|instanceof|long|native|new|package|private|protected|public|return|short|static" +
@@ -12,7 +11,7 @@ public class DelVariables {
 
     private static HashSet<String> keyWordSet = new HashSet<>();
 
-    public DelVariables() {
+    public VariablesUtils() {
         String list[] = keyWords.split("\\|");
         for (String keyword : list) {
             keyWordSet.add(keyword);

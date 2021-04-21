@@ -1,4 +1,4 @@
-package compare.utils;
+package cn.edu.tju.utils;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;

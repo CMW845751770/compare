@@ -1,4 +1,4 @@
-package compare.java;
+package cn.edu.tju.utils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -6,16 +6,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class GetSimilarity {
-    private static GetSimilarity getSimilarity = new GetSimilarity();
-    private LD ld = new LD();
+public class SimilarityCalculator {
+    private static SimilarityCalculator getSimilarity = new SimilarityCalculator();
+    private LDUtils ld = new LDUtils();
     public static String getPreProcessedCode(String code) {
         //删除所有注释
         System.out.println(code);
-        code = CleanComments.delComments(code);
+        code = CommentUtils.delComments(code);
         System.out.println(code);
         System.out.println("*******************************************");
-        code = DelVariables.delVariables(code);
+        code = VariablesUtils.delVariables(code);
         System.out.println(code);
         System.out.println("*******************************************");
         //删除所有空格和换行

@@ -1,10 +1,10 @@
-package compare.java;
+package cn.edu.tju.utils;
 
-public class LD {
+public class LDUtils {
 
     /**
      * 计算矢量距离
-     * Levenshtein Distance(LD)
+     * Levenshtein Distance(LDUtils)
      *
      * @param str1 str1
      * @param str2 str2
@@ -64,7 +64,7 @@ public class LD {
     }
 
 //    public static void main(String[] args) {
-//        LD ld = new LD();
+//        LDUtils ld = new LDUtils();
 //        double num = ld.ld("人民", "中国人民是人才");
 //        System.out.println(num);
 //    }

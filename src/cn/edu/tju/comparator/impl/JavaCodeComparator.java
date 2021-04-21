@@ -1,4 +1,4 @@
-package compare.cplusplus;
+package cn.edu.tju.comparator.impl;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -7,11 +7,12 @@ import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.HashSet;
 
-import compare.Compare;
+import cn.edu.tju.comparator.Compare;
+import cn.edu.tju.utils.CommentsUtils;
 import compare.java.LD;
 
-public class CPlusPlusCompare extends Compare {
-    private static CPlusPlusCompare cmp = new CPlusPlusCompare();
+public class JavaCodeComparator extends Compare {
+    private static JavaCodeComparator cmp = new JavaCodeComparator();
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/Graduate?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
@@ -25,7 +26,7 @@ public class CPlusPlusCompare extends Compare {
     private HashSet<String> keyWordSet = new HashSet<>();
     private LD ld = new LD();
 
-    public CPlusPlusCompare() {
+    public JavaCodeComparator() {
         String list[] = keyWords.split("\\|");
         for (String keyword : list) {
             keyWordSet.add(keyword);
@@ -75,7 +76,7 @@ public class CPlusPlusCompare extends Compare {
                 buf.append(line + "\n");
             }
             //删除所有注释
-            code = DelComments.delComments(buf.toString());
+            code = CommentsUtils.delComments(buf.toString());
             int pos1 = 0, pos2 = 0;
             int len = code.length();
             boolean isString = false;
@@ -159,7 +160,7 @@ public class CPlusPlusCompare extends Compare {
 //        double s = cmp.getSimilarity(codeList.get(0), codeList.get(1));
 //        System.out.println(s);
 
-//        CPlusPlusCompare cmp = new CPlusPlusCompare();
+//        JavaCodeComparator cmp = new JavaCodeComparator();
 //        File dic = new File("D:\\GraduationProject\\testC");
 //        String names[] = {"main.cpp", "main1.cpp"};
 //

@@ -1,14 +1,10 @@
-package compare.java;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+package cn.edu.tju.utils;
 
 /**
  * @author Insunny
  *
  */
-public class CleanComments {
+public class CommentUtils {
 
     private static final char MARK = '"';
 
