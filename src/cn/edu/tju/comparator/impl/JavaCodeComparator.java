@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.HashSet;
 import cn.edu.tju.comparator.Compare;
@@ -124,11 +125,11 @@ public class JavaCodeComparator extends Compare {
     public static void main(String[] args) throws IOException {
         String path1 = "D:\\GraduationProject\\testC\\main.cpp";
         String path2 = "D:\\GraduationProject\\testC\\main1.cpp";
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), "UTF-8"));
-        StringBuffer buf = new StringBuffer();
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), StandardCharsets.UTF_8));
+        StringBuilder buf = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
-            buf.append(line + "\n");
+            buf.append(line).append("\n");
         }
 
         String code = buf.toString();
@@ -148,10 +149,8 @@ public class JavaCodeComparator extends Compare {
             statement.setInt(3, 1);
             statement.setString(4, "C++");
             statement.executeUpdate(sql);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 //        ArrayList<String> codeList = new ArrayList<>();
 //        codeList.add(cmp.getPreProcessedCode(path1));
