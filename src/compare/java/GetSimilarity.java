@@ -7,15 +7,21 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class GetSimilarity {
-    private static GetSimilarity get = new GetSimilarity();
+    private static GetSimilarity getSimilarity = new GetSimilarity();
     private LD ld = new LD();
     public static String getPreProcessedCode(String code) {
         //删除所有注释
+        System.out.println(code);
         code = CleanComments.delComments(code);
+        System.out.println(code);
+        System.out.println("*******************************************");
         code = DelVariables.delVariables(code);
-
+        System.out.println(code);
+        System.out.println("*******************************************");
         //删除所有空格和换行
         code = code.replaceAll("\\s", "");
+        System.out.println(code);
+        System.out.println("*******************************************");
         return code;
     }
 
@@ -47,6 +53,6 @@ public class GetSimilarity {
         }
         code = buf.toString();
         codeList.add(getPreProcessedCode(code));
-        System.out.println(get.similarity(codeList.get(0), codeList.get(1)));
+        System.out.println(getSimilarity.similarity(codeList.get(0), codeList.get(1)));
     }
 }
