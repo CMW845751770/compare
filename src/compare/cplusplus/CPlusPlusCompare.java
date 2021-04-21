@@ -5,15 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import compare.Compare;
-
-import javax.xml.transform.Result;
+import compare.java.LD;
 
 public class CPlusPlusCompare extends Compare {
-    /*C++关键字*/
     private static CPlusPlusCompare cmp = new CPlusPlusCompare();
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/Graduate?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -33,9 +30,10 @@ public class CPlusPlusCompare extends Compare {
         for (String keyword : list) {
             keyWordSet.add(keyword);
         }
+        System.out.println(keyWordSet.size());
     }
 
-    private String delVariables(String code) {
+    public String delVariables(String code) {
         code = "   " + code + "  ";
         int pos1 = 0, pos2 = 0;
         int len = code.length();
@@ -110,7 +108,6 @@ public class CPlusPlusCompare extends Compare {
             code = ret.toString();
             //删除所有空格和换行
             code = code.replaceAll("\\s", "");
-
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
