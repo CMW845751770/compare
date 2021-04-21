@@ -1,4 +1,4 @@
-package compare.cplusplus;
+package compare.java;
 
 public class LD {
 
@@ -63,9 +63,9 @@ public class LD {
         return 1 - (double) ld / Math.max(str1.length(), str2.length());
     }
 
-    public static void main(String[] args) {
-        LD ld = new LD();
-        double num = ld.ld("人民", "中国人民是人才");
-        System.out.println(num);
-    }
+//    public static void main(String[] args) {
+//        LD ld = new LD();
+//        double num = ld.ld("人民", "中国人民是人才");
+//        System.out.println(num);
+//    }
 }
