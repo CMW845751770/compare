@@ -16,7 +16,7 @@ public class JavaCodeComparator extends Compare {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/Graduate?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
-    static final String PASS = "Zhao@9295";
+    static final String PASS = "root";
 
     private String keyWords = "and|asm|auto|bad_cast|bad_typeid|bool|break|case|catch|char|class|const|const_cast" +
             "|continue|default|delete|do|double|dynamic_cast|else|enum|except|explicit|extern|false|finally|float|for" +
@@ -123,8 +123,8 @@ public class JavaCodeComparator extends Compare {
     }
 
     public static void main(String[] args) throws IOException {
-        String path1 = "D:\\GraduationProject\\testC\\main.cpp";
-        String path2 = "D:\\GraduationProject\\testC\\main1.cpp";
+        String path1 = "D:/CppWorkSpace/main.cpp";
+        String path2 = "D:/CppWorkSpace/main.cpp";
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), StandardCharsets.UTF_8));
         StringBuilder buf = new StringBuilder();
         String line;
@@ -132,8 +132,7 @@ public class JavaCodeComparator extends Compare {
             buf.append(line).append("\n");
         }
 
-        String code = buf.toString();
-        System.out.println(code);
+        String code = buf.toString().replaceAll("\r\n|\r|\n", "").replaceAll("\"", "'");
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -141,14 +140,14 @@ public class JavaCodeComparator extends Compare {
             System.out.println("连接数据库...");
             connection = DriverManager.getConnection(DB_URL,USER,PASS);
 //            String sql = "insert into `function` (id, `name`, file_id) values(?,?,?)";
-//            String sql = "insert into `function` values(?,?,?,?)";
-            String sql = "insert into file values(?,?,?,?)";
+            String sql = "insert into `function` values(?,?,?,?)";
+//            String sql = "insert into file values(?,?,?,?)";
             statement = connection.prepareStatement(sql);
-            statement.setString(1, "1main");
-            statement.setString(2, "main");
-            statement.setInt(3, 1);
-            statement.setString(4, "C++");
-            statement.executeUpdate(sql);
+            statement.setString(1, "dsadasdasdasdas");
+            statement.setString(2, "name");
+            statement.setString(3, "file_id");
+            statement.setString(4, code);
+            statement.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
