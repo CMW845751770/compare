@@ -10,19 +10,14 @@ import java.util.ArrayList;
 public class SimilarityCalculator {
     private static SimilarityCalculator getSimilarity = new SimilarityCalculator();
     private LDUtils ld = new LDUtils();
+    private static VariablesUtils variablesUtils = new VariablesUtils();
     public static String getPreProcessedCode(String code) {
         //删除所有注释
-        System.out.println(code);
         code = CommentUtils.delComments(code);
-        System.out.println(code);
-        System.out.println("*******************************************");
-        code = VariablesUtils.delVariables(code);
-        System.out.println(code);
-        System.out.println("*******************************************");
+        code = variablesUtils.delVariables(code);
         //删除所有空格和换行
         code = code.replaceAll("\\s", "");
         System.out.println(code);
-        System.out.println("*******************************************");
         return code;
     }
 

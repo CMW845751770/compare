@@ -3,12 +3,13 @@ package cn.edu.tju.utils;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: CMW天下第一
@@ -18,26 +19,46 @@ public class FileUtils {
 
     /**
      * 从给定的目录路径中读取所有的Java文件
+     *
      * @param dirPath Java文件的目录路径
      * @return
      */
-    public static List<File> getJavaFileList(String dirPath){
+    public static List<File> getJavaFileList(String dirPath) {
+        List<File> files = new ArrayList<>();
         File dir = new File(dirPath);
-        File[] files = dir.listFiles();
-        if(Objects.nonNull(files)){
-            return Arrays.stream(files).filter(file -> file.isFile() && (file.getName().endsWith(".java")))
-                    .collect(Collectors.toList());
+        File[] fileList = dir.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            if (fileList[i].isDirectory()) {
+                files.addAll(getJavaFileList(dirPath +  "\\\\" + fileList[i].getName()));
+            } else {
+                if (fileList[i].getName().endsWith(".java")) {
+                    files.add(fileList[i]);
+                }
+            }
         }
-        return new ArrayList<>();
+        return files;
+//        File[] files = dir.listFiles();
+//        System.out.println(files.length);
+//        for (File file : files) {
+//            if (file.isDirectory()) {
+//                f.addAll(getJavaFileList(files[1]));
+//            }
+//        }
+//        if (Objects.nonNull(files)) {
+//            return Arrays.stream(files).filter(file -> file.isFile() && (file.getName().endsWith(".java")))
+//                    .collect(Collectors.toList());
+//        }
+//        return new ArrayList<>();
     }
 
 
     /**
      * 读取文件中的内容
+     *
      * @param file Java文件
      * @return
      */
-    public static String printFileContent(File file){
+    public static String printFileContent(File file) {
         BufferedReader reader = null;
         StringBuilder sbf = new StringBuilder();
         try {
@@ -64,6 +85,7 @@ public class FileUtils {
 
     /**
      * 从Java文件中读取所有的函数代码块
+     *
      * @param file Java文件
      * @return
      */
@@ -71,7 +93,7 @@ public class FileUtils {
         CompilationUnit unit = JavaParser.parse(file);
         List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
         List<String> functionBodyList = new ArrayList<>();
-        for(MethodDeclaration m : methodDeclarationList){
+        for (MethodDeclaration m : methodDeclarationList) {
             m.getBody().ifPresent(body -> {
                 functionBodyList.add(body.toString());
             });
@@ -81,11 +103,11 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:/CppWorkSpace";
+        String dirPath = "D:\\Deluxe\\story\\src\\main\\java\\com\\example\\story\\service";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));
+            System.out.println(file.getName());
         }
     }
-
 }
