@@ -29,7 +29,7 @@ public class FileUtils {
         File[] fileList = dir.listFiles();
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isDirectory()) {
-                files.addAll(getJavaFileList(dirPath +  "\\\\" + fileList[i].getName()));
+                files.addAll(getJavaFileList(dirPath +  "\\" + fileList[i].getName()));
             } else {
                 if (fileList[i].getName().endsWith(".java")) {
                     files.add(fileList[i]);
