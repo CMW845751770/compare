@@ -89,16 +89,19 @@ public class FileUtils {
      * @param file Java文件
      * @return
      */
-    public static List<String> getFunctionFromJavaFile(File file) throws Exception {
+    public static List<List<String>> getFunctionFromJavaFile(File file) throws Exception {
         CompilationUnit unit = JavaParser.parse(file);
         List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
-        List<String> functionBodyList = new ArrayList<>();
+        List<List<String>> functionList = new ArrayList<>();
         for (MethodDeclaration m : methodDeclarationList) {
+            List<String> list = new ArrayList<>();
+            list.add(m.getName().toString());
             m.getBody().ifPresent(body -> {
-                functionBodyList.add(body.toString());
+                list.add(body.toString());
             });
+            functionList.add(list);
         }
-        return functionBodyList;
+        return functionList;
     }
 
 

@@ -32,12 +32,12 @@ public class DatabaseUtils {
         String path = "D:\\GraduationProject\\test";
         List<File> files = FileUtils.getJavaFileList(path);
         for (File file : files) {
-            List<String> functions = FileUtils.getFunctionFromJavaFile(file);
+            List<List<String>> functions = FileUtils.getFunctionFromJavaFile(file);
             System.out.println(file.getName());
-            for (String function : functions) {
-                pst.setString(1, "test");
+            for (List<String> function : functions) {
+                pst.setString(1, function.get(0));
                 pst.setString(2, "1test");
-                pst.setString(3, function);
+                pst.setString(3, function.get(1));
                 pst.executeUpdate();
 //                System.out.println(file.getName());
             }
