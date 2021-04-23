@@ -143,7 +143,7 @@ public class JavaCodeComparator extends Compare {
             String sql = "insert into `function` values(?,?,?,?)";
 //            String sql = "insert into file values(?,?,?,?)";
             statement = connection.prepareStatement(sql);
-            statement.setString(1, "dsadasdasdasdas");
+            statement.setString(1, "kjlkj");
             statement.setString(2, "name");
             statement.setString(3, "file_id");
             statement.setString(4, code);

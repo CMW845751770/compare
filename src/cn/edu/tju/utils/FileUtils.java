@@ -99,11 +99,11 @@ public class FileUtils {
         List<List<String>> functionList = new ArrayList<>();
         for (MethodDeclaration m : methodDeclarationList) {
             List<String> list = new ArrayList<>();
-            list.add(m.getName().toString());
             m.getBody().ifPresent(body -> {
+                list.add(m.getName().toString());
                 list.add(body.toString());
+                functionList.add(list);
             });
-            functionList.add(list);
         }
         return functionList;
     }
