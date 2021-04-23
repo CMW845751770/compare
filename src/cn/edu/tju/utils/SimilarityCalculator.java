@@ -13,7 +13,7 @@ public class SimilarityCalculator {
     private static VariablesUtils variablesUtils = new VariablesUtils();
     public static String getPreProcessedCode(String code) {
         //删除所有注释
-        code = CommentUtils.delComments(code);
+        code = CommentUtils.clearComments(code);
         code = variablesUtils.delVariables(code);
         //删除所有空格和换行
         code = code.replaceAll("\\s", "");
@@ -27,8 +27,8 @@ public class SimilarityCalculator {
     }
 
     public static void main(String[] args) throws IOException {
-        String path1 = "D:\\GraduationProject\\test\\test1.java";
-        String path2 = "D:\\GraduationProject\\test\\test2.java";
+        String path1 = "D:/CppWorkSpace/tmp/main.java";
+        String path2 = "D:/CppWorkSpace/tmp/main1.java";
 
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path1), StandardCharsets.UTF_8));
         StringBuffer buf = new StringBuffer();

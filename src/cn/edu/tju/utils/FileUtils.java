@@ -110,7 +110,7 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:/CppWorkSpace";
+        String dirPath = "D:/CppWorkSpace/tmp";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));

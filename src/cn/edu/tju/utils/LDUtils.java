@@ -63,9 +63,9 @@ public class LDUtils {
         return 1 - (double) ld / Math.max(str1.length(), str2.length());
     }
 
-//    public static void main(String[] args) {
-//        LDUtils ld = new LDUtils();
-//        double num = ld.ld("人民", "中国人民是人才");
-//        System.out.println(num);
-//    }
+    public static void main(String[] args) {
+        LDUtils ld = new LDUtils();
+        double num = ld.ld("人民", "中国人民是人才");
+        System.out.println(num);
+    }
 }

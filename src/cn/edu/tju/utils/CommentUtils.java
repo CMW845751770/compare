@@ -1,5 +1,7 @@
 package cn.edu.tju.utils;
 
+import java.util.regex.Pattern;
+
 /**
  * @author Insunny
  *
@@ -97,5 +99,13 @@ public class CommentUtils {
 
         }
         return new String(input);
+    }
+
+
+    private static final Pattern pattern = Pattern.compile("//[^\\n]*|/\\*([^*^/]*|[*^/]*|[^*/]*)*\\*+/", Pattern.DOTALL);
+
+    public static String clearComments(String content) {
+        content = content.replaceAll("//.+\\r\\n", "");
+        return pattern.matcher(content).replaceAll("");
     }
 }
