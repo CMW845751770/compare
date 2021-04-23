@@ -21,23 +21,38 @@ public class DatabaseUtils {
         }
     }
 
-    static PreparedStatement pst = null;
+    static PreparedStatement pst_function = null;
+    static PreparedStatement pst_file = null;
+    static ResultSet rs = null;
+    static int file_ID = 0;
 
     public static void main(String[] args) throws Exception {
 //        String sql = "select * from project";
-        String sql = "insert into `function`(`name`, file_ID, content) values(?,?,?)";
-        pst = conn.prepareStatement(sql);
-        String path = "D:\\GraduationProject\\test";
+        String sql_file = "insert into file(`name`, pro_ID, `language`) values(?,?,?)";
+        String sql_function = "insert into `function`(`name`, file_ID, content) values(?,?,?)";
+        pst_file = conn.prepareStatement(sql_file, Statement.RETURN_GENERATED_KEYS);
+        pst_function = conn.prepareStatement(sql_function);
+        String path = "D:\\GraduationProject\\code_data\\java-design-patterns-master";
         List<File> files = FileUtils.getJavaFileList(path);
         for (File file : files) {
+            pst_file.setString(1, file.getName());
+            pst_file.setInt(2, 1);
+            pst_file.setString(3, "java");
+            pst_file.executeUpdate();
+            rs = pst_file.getGeneratedKeys();
+            if (rs.next()) file_ID = rs.getInt(1);
             List<List<String>> functions = FileUtils.getFunctionFromJavaFile(file);
             System.out.println(file.getName());
             for (List<String> function : functions) {
-                pst.setString(1, function.get(0));
-                pst.setString(2, "1test");
-                pst.setString(3, function.get(1));
-                pst.executeUpdate();
+                pst_function.setString(1, function.get(0));
+                pst_function.setInt(2, file_ID);
+                pst_function.setString(3, function.get(1));
+                pst_function.executeUpdate();
 //                System.out.println(file.getName());
+//                ResultSet rs = pst_function.getGeneratedKeys();
+//                if (rs.next()) {
+//                    System.out.println(rs.getInt(1));
+//                }
             }
 
 //
