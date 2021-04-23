@@ -36,8 +36,7 @@ public class CommentUtils {
     public static char[] del(char[] _target, int _start, int _end) {
         char[] tmp = new char[_target.length - (_end - _start + 1)];
         System.arraycopy(_target, 0, tmp, 0, _start);
-        System.arraycopy(_target, _end + 1, tmp, _start, _target.length - _end
-                - 1);
+        System.arraycopy(_target, _end + 1, tmp, _start, _target.length - _end - 1);
         return tmp;
     }
 

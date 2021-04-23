@@ -37,41 +37,13 @@ public class VariablesUtils {
                     tail++;
                 }
                 String str = code.substring(head, tail);
-//                System.out.println(str);
                 if (keyWordSet.contains(str)) {
-//                    System.out.println(str);
                     result += str;
                 }
             }
             head = tail;
         }
         return result;
-//        code = " " + code + " ";
-//        int pos1 = 0, pos2 = 0;
-//        int len = code.length();
-//        boolean isVariables = false;
-//        StringBuffer ret = new StringBuffer();
-//        while (pos1 < len) {
-//            pos2++;
-//            if (isVariables) {
-//                if (code.substring(pos2, pos2 + 2).replaceAll("[0-9a-zA-Z_][^a-zA-Z_]", "").equals("")) {
-//                    isVariables = false;
-//                    String vv = code.substring(pos1, pos2 + 1);
-//                    if (keyWordSet.contains(vv)) {
-//                        ret.append(vv);
-//                    }
-//                    pos1 = pos2 + 1;
-//                }
-//            } else {
-//                if (code.substring(pos2, pos2 + 2).replaceAll("[^\\._a-zA-Z][_a-zA-Z]", "").equals("")) {
-//                    isVariables = true;
-//                    ret.append(code.substring(pos1, pos2 + 1));
-//                    pos1 = pos2 + 1;
-//                }
-//            }
-//            if (pos2 == len - 2) break;
-//        }
-//        return ret.toString().trim();
     }
 
     public static void main(String[] args) {
@@ -85,6 +57,5 @@ public class VariablesUtils {
                 "    }";
 
         System.out.println(variablesUtils.delVariables(code));
-//        delVariables(code);
     }
 }
