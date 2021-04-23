@@ -106,7 +106,7 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:\\Deluxe\\story\\src\\main\\java\\com\\example\\story\\service";
+        String dirPath = "D:\\GraduationProject\\code_data\\java-design-patterns-master\\abstract-document\\src\\main\\java\\com\\iluwatar\\abstractdocument";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));
