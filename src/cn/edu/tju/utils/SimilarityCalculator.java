@@ -34,7 +34,7 @@ public class SimilarityCalculator {
         StringBuffer buf = new StringBuffer();
         String line;
         while ((line = br.readLine()) != null) {
-            buf.append(line + "\n");
+            buf.append(line).append("\n");
         }
 
         String code = buf.toString();
@@ -45,7 +45,7 @@ public class SimilarityCalculator {
         br = new BufferedReader(new InputStreamReader(new FileInputStream(path2)));
         buf = new StringBuffer();
         while ((line = br.readLine()) != null) {
-            buf.append(line + "\n");
+            buf.append(line).append("\n");
         }
         code = buf.toString();
         codeList.add(getPreProcessedCode(code));
