@@ -27,27 +27,29 @@ public class DatabaseUtils {
     static int file_ID = 0;
 
     public static void main(String[] args) throws Exception {
-//        String sql = "select * from project";
+        int i = 0;
         String sql_file = "insert into file(`name`, pro_ID, `language`) values(?,?,?)";
         String sql_function = "insert into `function`(`name`, file_ID, content) values(?,?,?)";
         pst_file = conn.prepareStatement(sql_file, Statement.RETURN_GENERATED_KEYS);
         pst_function = conn.prepareStatement(sql_function);
-        String path = "D:\\GraduationProject\\code_data\\java-design-patterns-master";
+        String path = "D:\\GraduationProject\\code_data\\elasticsearch-master";
         List<File> files = FileUtils.getJavaFileList(path);
         for (File file : files) {
             pst_file.setString(1, file.getName());
-            pst_file.setInt(2, 1);
+            pst_file.setInt(2, 2);
             pst_file.setString(3, "java");
             pst_file.executeUpdate();
             rs = pst_file.getGeneratedKeys();
             if (rs.next()) file_ID = rs.getInt(1);
             List<List<String>> functions = FileUtils.getFunctionFromJavaFile(file);
-            System.out.println(file.getName());
+//            System.out.println(file.getName());
             for (List<String> function : functions) {
                 pst_function.setString(1, function.get(0));
                 pst_function.setInt(2, file_ID);
                 pst_function.setString(3, function.get(1));
                 pst_function.executeUpdate();
+                if (i % 100 == 0) System.out.println(i);
+                i++;
 //                System.out.println(file.getName());
 //                ResultSet rs = pst_function.getGeneratedKeys();
 //                if (rs.next()) {
@@ -62,6 +64,7 @@ public class DatabaseUtils {
 //            pst.setString(4, code);
 //            System.out.println(file.getName());
         }
+        System.out.println(i);
 
 
 

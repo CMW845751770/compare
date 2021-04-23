@@ -65,7 +65,7 @@ public class LDUtils {
 
     public static void main(String[] args) {
         LDUtils ld = new LDUtils();
-        double num = ld.ld("人民", "中国人民是人才");
+        double num = ld.ld("中国人民是人才", "人民");
         System.out.println(num);
     }
 }

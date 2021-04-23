@@ -41,18 +41,6 @@ public class FileUtils {
             }
         }
         return files;
-//        File[] files = dir.listFiles();
-//        System.out.println(files.length);
-//        for (File file : files) {
-//            if (file.isDirectory()) {
-//                f.addAll(getJavaFileList(files[1]));
-//            }
-//        }
-//        if (Objects.nonNull(files)) {
-//            return Arrays.stream(files).filter(file -> file.isFile() && (file.getName().endsWith(".java")))
-//                    .collect(Collectors.toList());
-//        }
-//        return new ArrayList<>();
     }
 
 
