@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: CMW天下第一
@@ -27,6 +28,9 @@ public class FileUtils {
         List<File> files = new ArrayList<>();
         File dir = new File(dirPath);
         File[] fileList = dir.listFiles();
+        if(Objects.isNull(fileList)){
+            return files;
+        }
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isDirectory()) {
                 files.addAll(getJavaFileList(dirPath +  "\\" + fileList[i].getName()));
@@ -106,11 +110,10 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:\\Deluxe\\story\\src\\main\\java\\com\\example\\story\\service";
+        String dirPath = "D:/CppWorkSpace";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));
-            System.out.println(file.getName());
         }
     }
 }
