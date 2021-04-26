@@ -4,10 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -81,10 +78,15 @@ public class FileUtils {
      * @param file Java文件
      * @return
      */
-    public static List<List<String>> getFunctionFromJavaFile(File file) throws Exception {
-        CompilationUnit unit = JavaParser.parse(file);
-        List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
+    public static List<List<String>> getFunctionFromJavaFile(File file) {
+        CompilationUnit unit = null;
         List<List<String>> functionList = new ArrayList<>();
+        try {
+            unit = JavaParser.parse(file);
+        } catch (FileNotFoundException e) {
+            return functionList;
+        }
+        List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
         for (MethodDeclaration m : methodDeclarationList) {
             List<String> list = new ArrayList<>();
             m.getBody().ifPresent(body -> {
