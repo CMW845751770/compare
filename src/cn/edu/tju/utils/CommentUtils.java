@@ -42,30 +42,23 @@ public class CommentUtils {
 
     public static String delComments(String _target) {
         int preType = 0;
-        int mark = -1, cur = -1, token = -1;
-        // 输入字符串
+        int mark = -1, cur = -1, token = -1;// 输入字符串
         char[] input =  _target.toCharArray();
         for (cur = 0; cur < input.length; cur++) {
-            if (input[cur] == MARK) {
-                // 首先判断是否为转义引号
+            if (input[cur] == MARK) {// 首先判断是否为转义引号
                 if (preType == TYPE_BACKSLASH)
-                    continue;
-                // 已经进入引号之内
-                if (mark > 0) {
-                    // 引号结束
+                    continue;// 已经进入引号之内
+                if (mark > 0) {// 引号结束
                     mark = -1;
                 } else {
                     mark = cur;
                 }
                 preType = TYPE_MARK;
-            } else if (input[cur] == SLASH) {
-                // 当前位置处于引号之中
+            } else if (input[cur] == SLASH) {// 当前位置处于引号之中
                 if (mark > 0)
-                    continue;
-                // 如果前一位是*，则进行删除操作
+                    continue;// 如果前一位是*，则进行删除操作
                 if (preType == TYPE_STAR) {
-                    input = del(input, token, cur);
-                    // 退回一个位置进行处理
+                    input = del(input, token, cur);// 退回一个位置进行处理
                     cur = token - 1;
                     preType = 0;
                 } else if (preType == TYPE_SLASH) {
@@ -76,11 +69,9 @@ public class CommentUtils {
                 }
             } else if (input[cur] == BACKSLASH) {
                 preType = TYPE_BACKSLASH;
-            } else if (input[cur] == STAR) {
-                // 当前位置处于引号之中
+            } else if (input[cur] == STAR) {// 当前位置处于引号之中
                 if (mark > 0)
-                    continue;
-                // 如果前一个位置是/,则记录注释开始的位置
+                    continue;// 如果前一个位置是/,则记录注释开始的位置
                 if (preType == TYPE_SLASH) {
                     token = cur - 1;
                 }
@@ -89,8 +80,7 @@ public class CommentUtils {
             {
                 if(preType == TYPE_DSLASH)
                 {
-                    input = del(input, token, cur);
-                    // 退回一个位置进行处理
+                    input = del(input, token, cur);// 退回一个位置进行处理
                     cur = token - 1;
                     preType = 0;
                 }
