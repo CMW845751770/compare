@@ -1,16 +1,15 @@
 package cn.edu.tju.utils;
 
 import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: CMW天下第一
@@ -28,12 +27,12 @@ public class FileUtils {
         List<File> files = new ArrayList<>();
         File dir = new File(dirPath);
         File[] fileList = dir.listFiles();
-        if(Objects.isNull(fileList)){
+        if (Objects.isNull(fileList)) {
             return files;
         }
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isDirectory()) {
-                files.addAll(getJavaFileList(dirPath +  "\\" + fileList[i].getName()));
+                files.addAll(getJavaFileList(dirPath + "\\" + fileList[i].getName()));
             } else {
                 if (fileList[i].getName().endsWith(".java")) {
                     files.add(fileList[i]);
@@ -81,14 +80,33 @@ public class FileUtils {
      * @param file Java文件
      * @return
      */
-    public static List<List<String>> getFunctionFromJavaFile(File file) throws Exception {
-        CompilationUnit unit = JavaParser.parse(file);
-        List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
+    public static List<List<String>> getFunctionFromJavaFile(File file) {
+        CompilationUnit unit = null;
         List<List<String>> functionList = new ArrayList<>();
+        try {
+            unit = JavaParser.parse(file);
+        } catch (FileNotFoundException | ParseProblemException e) {
+            return functionList;
+        }
+        List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
         for (MethodDeclaration m : methodDeclarationList) {
             List<String> list = new ArrayList<>();
             m.getBody().ifPresent(body -> {
-                list.add(m.getName().toString());
+                //为方法名::参数类型格式_个数
+                NodeList<Parameter> parameters = m.getParameters();
+                //处理参数类型为字符串，并按照升序排列，并统计个数
+                List<String> stringList = parameters.stream().map(parameter -> {
+                    return parameter.getType().asString();
+                }).collect(Collectors.toList());
+                Map<String, Integer> countMap = new TreeMap<>();
+                for (String type : stringList) {
+                    countMap.merge(type, 1, Integer::sum);
+                }
+                String key = m.getNameAsString();
+                for (String type : countMap.keySet()) {
+                    key = String.join("::", key, type + "_" + countMap.getOrDefault(type, 0));
+                }
+                list.add(key);
                 list.add(body.toString());
                 functionList.add(list);
             });
