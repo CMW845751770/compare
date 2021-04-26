@@ -108,6 +108,7 @@ public class FileUtils {
                 }
                 list.add(key);
                 list.add(body.toString());
+                list.add(m.getName().toString());
                 functionList.add(list);
             });
         }
@@ -116,7 +117,7 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:/CppWorkSpace/tmp";
+        String dirPath = "D:\\GraduationProject\\code_data\\elasticsearch-master\\server\\src\\main\\java\\org\\elasticsearch\\bootstrap";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));

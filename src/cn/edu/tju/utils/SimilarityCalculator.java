@@ -41,7 +41,7 @@ public class SimilarityCalculator {
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            String sql = "select ID, content from `function` where ID < 5";
+            String sql = "select ID, content from `function` where ID < 10";
             pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
