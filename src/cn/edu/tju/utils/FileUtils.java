@@ -30,6 +30,7 @@ public class FileUtils {
         if (Objects.isNull(fileList)) {
             return files;
         }
+
         for (int i = 0; i < fileList.length; i++) {
             if (fileList[i].isDirectory()) {
                 files.addAll(getJavaFileList(dirPath + "\\" + fileList[i].getName()));
@@ -117,7 +118,7 @@ public class FileUtils {
 
 
     public static void main(String[] args) throws Exception {
-        String dirPath = "D:\\GraduationProject\\code_data\\elasticsearch-master\\server\\src\\main\\java\\org\\elasticsearch\\bootstrap";
+        String dirPath = "D:\\GraduationProject\\code_data\\elasticsearch-master\\server\\src\\main\\java\\org\\elasticsearch\\bootstrap\\tmp";
         List<File> fileList = getJavaFileList(dirPath);
         for (File file : fileList) {
             System.out.println(getFunctionFromJavaFile(file));
