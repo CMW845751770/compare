@@ -28,6 +28,12 @@ public class DatabaseUtils {
     static int file_ID = 0;
     static int project_ID = 0;
 
+    public void test() throws SQLException {
+        String sql = "select * from project where ID = 1";
+        pst_project = conn.prepareStatement(sql);
+        pst_project.executeQuery();
+    }
+
     public static void main(String[] args) throws Exception {
         int i = 0;
         String sql_file = "insert into file(`name`, pro_ID, `language`) values(?,?,?)";

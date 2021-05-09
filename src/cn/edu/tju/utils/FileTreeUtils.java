@@ -9,7 +9,7 @@ import java.util.Queue;
 public class FileTreeUtils {
     static String jsonString = "";
 
-    public static List<List<String>> getJavaFileList(String dirPath) {
+    public List<List<String>> getJavaFileList(String dirPath) {
         List<List<String>> functions = new ArrayList<>();
         List<FileTree> treeNode = new ArrayList<>();
         Queue<FileTree> fileQueue = new LinkedList<>();
@@ -51,22 +51,15 @@ public class FileTreeUtils {
             }
         }
 
+        jsonString = jsonString.substring(0, jsonString.length() - 1);
+        jsonString = "[" + jsonString + "]";
+        boolean b = CreateJsonFileUtils.createJsonFile(jsonString, "D:\\GraduationProject\\json", "test");
         return functions;
     }
 
     public static void main(String[] args) {
+        FileTreeUtils f = new FileTreeUtils();
         String path = "D:\\GraduationProject\\test";
-        List<List<String>> f = getJavaFileList(path);
-//        for (FileTree file : f) {
-//            System.out.println(file.toString());
-//        }
-
-        System.out.println(f);
-
-//        System.out.println(jsonString);
-//        JSONObject jsonObject = new JSONObject();
-        jsonString = jsonString.substring(0, jsonString.length() - 1);
-        jsonString = "[" + jsonString + "]";
-        boolean b = CreateJsonFileUtils.createJsonFile(jsonString, "D:\\GraduationProject\\json", "test");
+        f.getJavaFileList(path);
     }
 }

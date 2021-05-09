@@ -89,7 +89,7 @@ public class FileUtils {
         } catch (FileNotFoundException | ParseProblemException e) {
             return functionList;
         }
-        List<MethodDeclaration> methodDeclarationList = unit.findAll(MethodDeclaration.class);
+        List<MethodDeclaration> methodDeclarationList = unit.getChildNodesByType(MethodDeclaration.class);
         for (MethodDeclaration m : methodDeclarationList) {
             List<String> list = new ArrayList<>();
             m.getBody().ifPresent(body -> {
