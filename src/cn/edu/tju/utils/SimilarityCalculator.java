@@ -27,7 +27,7 @@ public class SimilarityCalculator {
         return 1 - ld.ld(code1, code2) * 1.0 / Math.max(code1.length(), code2.length());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/Graduate?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
         String USER = "root";
@@ -35,30 +35,32 @@ public class SimilarityCalculator {
 
         Connection conn;
         PreparedStatement pst = null;
+        PreparedStatement pst_update = null;
         List<Integer> IDList = new ArrayList<>();
         List<String> contentList = new ArrayList<>();
 
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            String sql = "select ID, content from `function` where ID < 10";
-            pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                IDList.add(rs.getInt("ID"));
-                contentList.add(rs.getString("content"));
+        Class.forName(JDBC_DRIVER);
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//            String sql = "select ID, content from `function` where ID < 10";
+        String sql = "select ID, `name`, content from `function` where ID >= ? and ID < ?";
+        String sql_update = "update `function` set token = ? where ID = ?";
+        pst_update = conn.prepareStatement(sql_update);
+        pst = conn.prepareStatement(sql);
+        int count = 417173;
+        for (int i = 1; i <= count; i += 1000) {
+            int upIndex = i + 100;
+            if (upIndex >= count) {
+                upIndex = count;
             }
-
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-
-        for (int i = 0; i < IDList.size() - 1; i++) {
-            for (int j  = i + 1; j < IDList.size(); j++) {
-                System.out.println(IDList.get(i) + " " + IDList.get(j) + " " + getSimilarity.similarity(contentList.get(i), contentList.get(j)));
+            pst.setInt(1, i);
+            pst.setInt(2, upIndex);
+            ResultSet rst = pst.executeQuery();
+            while (rst.next()) {
+                pst_update.setInt(2, rst.getInt("ID"));
+                pst_update.setString(1, SimilarityCalculator.getPreProcessedCode(rst.getString("content")));
+                pst_update.executeUpdate();
             }
+            System.out.println(i);
         }
-//        System.out.println(getSimilarity.similarity(codeList.get(0), codeList.get(1)));
-
     }
 }
