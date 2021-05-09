@@ -1,7 +1,5 @@
 package cn.edu.tju.utils;
 
-import java.util.regex.Pattern;
-
 /**
  * @author Insunny
  *
@@ -91,10 +89,37 @@ public class CommentUtils {
     }
 
 
-    private static final Pattern pattern = Pattern.compile("//[^\\n]*|/\\*([^*^/]*|[*^/]*|[^*/]*)*\\*+/", Pattern.DOTALL);
+//    private static final Pattern pattern = Pattern.compile(, Pattern.DOTALL);
 
-    public static String clearComments(String content) {
+    public static String clearComments(String content){
         content = content.replaceAll("//.+\\r\\n", "");
-        return pattern.matcher(content).replaceAll("");
+        return RegularExpressionUtils.createMatcherWithTimeout(content, "//[^\\n]*|/\\*([^*^/]*|[*^/]*|[^*/]*)*\\*+/", 2000).replaceAll("");
+    }
+
+    public static void main(String[] args) {
+        clearComments("{\n" +
+                "    Provider<ValidateJsonAgainstSchemaTask> validateRestSpecTask = project.getTasks().register(\"validateRestSpec\", ValidateJsonAgainstSchemaTask.class, task -> {\n" +
+                "        task.setInputFiles(Util.getJavaTestAndMainSourceResources(project, filter -> {\n" +
+                "            filter.include(DOUBLE_STAR + \"/rest-api-spec/api/\" + DOUBLE_STAR + \"/*.json\");\n" +
+                "            filter.exclude(DOUBLE_STAR + \"/_common.json\");\n" +
+                "        }));\n" +
+                "        // This must always be specified precisely, so that\n" +
+                "        // projects other than `rest-api-spec` can use this task.\n" +
+                "        task.setJsonSchema(new File(project.getRootDir(), \"rest-api-spec/src/main/resources/schema.json\"));\n" +
+                "        task.setReport(new File(project.getBuildDir(), \"reports/validateJson.txt\"));\n" +
+                "    });\n" +
+                "    Provider<ValidateJsonNoKeywordsTask> validateNoKeywordsTask = project.getTasks().register(\"validateNoKeywords\", ValidateJsonNoKeywordsTask.class, task -> {\n" +
+                "        task.setInputFiles(Util.getJavaTestAndMainSourceResources(project, filter -> {\n" +
+                "            filter.include(DOUBLE_STAR + \"/rest-api-spec/api/\" + DOUBLE_STAR + \"/*.json\");\n" +
+                "            filter.exclude(DOUBLE_STAR + \"/_common.json\");\n" +
+                "        }));\n" +
+                "        task.setJsonKeywords(new File(project.getRootDir(), \"rest-api-spec/keywords.json\"));\n" +
+                "        task.setReport(new File(project.getBuildDir(), \"reports/validateKeywords.txt\"));\n" +
+                "        // There's no point running this task if the schema validation fails\n" +
+                "        task.mustRunAfter(validateRestSpecTask);\n" +
+                "    });\n" +
+                "    project.getTasks().named(\"precommit\").configure(t -> t.dependsOn(validateRestSpecTask, validateNoKeywordsTask));\n" +
+                "}");
+        System.out.println("end...");
     }
 }

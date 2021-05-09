@@ -35,19 +35,19 @@ public class CompareUtils {
         int count = 0;
         if (rs.next()) count = rs.getInt(1);
 //        System.out.println(count);
-        String sql_function = "select ID, `name`, content from `function` where ID >= ? and ID < ?";
+        String sql_function = "select ID, `name`, content, token from `function` where ID >= ? and ID < ?";
         pst_function = conn.prepareStatement(sql_function);
-        for (int i = 1; i <= count; i += 100) {
-            int upIndex = i + 100;
+        for (int i = 1; i <= count; i += 1000) {
+            int upIndex = i + 1000;
             if (upIndex >= count) {
-                upIndex = count;
+                upIndex = count + 1;
             }
             pst_function.setInt(1, i);
             pst_function.setInt(2, upIndex);
             ResultSet rst = pst_function.executeQuery();
             while (rst.next()) {
-                String content = rst.getString("content");
-                double sim = sm.similarity(code, content);
+                String token = rst.getString("token");
+                double sim = sm.similarity(code, token);
                 for (int j = 0; j < result.size(); j++) {
                     if (sim >= result.get(j).getSim()) {
                         Function f = new Function(rst.getInt("ID"), rst.getString("name"), rst.getString("content"), sim);
@@ -57,6 +57,7 @@ public class CompareUtils {
                     }
                 }
             }
+            System.out.println(i);
         }
         return result;
     }
@@ -70,6 +71,8 @@ public class CompareUtils {
                 "    result = this.standardListPrev(Wo.copier, id, count, JpaObject.sequence_FIELDNAME, equals, null, null, null, null, null, null, null, true, DESC);\n" +
                 "    return result;\n" +
                 "}";
+
+        code = SimilarityCalculator.getPreProcessedCode(code);
         List<Function> result = compareUtils.compare(code);
         for (Function f: result) {
             System.out.println(f.toSting());

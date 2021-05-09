@@ -31,7 +31,7 @@ public class DatabaseUtils {
     public static void main(String[] args) throws Exception {
         int i = 0;
         String sql_file = "insert into file(`name`, pro_ID, `language`) values(?,?,?)";
-        String sql_function = "insert into `function`(`key`, `name`, file_ID, content) values(?,?,?,?)";
+        String sql_function = "insert into `function`(`key`, `name`, file_ID, content, token) values(?,?,?,?,?)";
         String sql_project = "insert into `project`(`name`) values(?)";
         pst_project = conn.prepareStatement(sql_project, Statement.RETURN_GENERATED_KEYS);
         pst_file = conn.prepareStatement(sql_file, Statement.RETURN_GENERATED_KEYS);
@@ -59,6 +59,7 @@ public class DatabaseUtils {
                     pst_function.setString(2, function.get(2));
                     pst_function.setInt(3, file_ID);
                     pst_function.setString(4, function.get(1));
+                    pst_function.setString(5, SimilarityCalculator.getPreProcessedCode(function.get(1)));
                     pst_function.executeUpdate();
                     if (i % 1000 == 0) System.out.println(i);
                     i++;
