@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,43 +16,62 @@
     <script type="text/javascript" src="jstree-master/dist/jstree.min.js"></script>
     <!--        <script type="text/javascript" src="jstree-master/src/jstree."></script>-->
     <link rel="stylesheet" href="jstree-master/dist/themes/default/style.min.css"/>
+    <script type="text/javascript">
+        var jsonArray = []
+
+        function drawJsTree(data) {
+            console.log(data)
+            $("#jstree").jstree({
+                "core": {
+                    "data": data
+                },
+                "plugins": ["types"],
+                "types": {
+                    "root": {
+                        "icon": "picture/doc.png",
+                    },
+                    "file": {
+                        "icon": "picture/java.png",
+                    },
+                    "function": {
+                        "icon": "picture/function.png",
+                    }
+                }
+            })
+        }
+
+    </script>
 </head>
 <body>
-<div id="jstree"></div>
-
-<script>
-    var jsonArray = []
-
-    function drawJsTree(data) {
-        console.log(data)
-        $("#jstree").jstree({
-            "core": {
-                "data": data
+<input id="path" type="text"/>
+<button id="submit">提交</button>
+<script type="text/javascript">
+    $("#submit").click(function () {
+        console.log($("#path").val())
+        $.post({
+            url: "test",
+            data: {
+                status: "1",
+                path: $("#path").val()
             },
-            "plugins": ["types"],
-            "types": {
-                "root": {
-                    "icon": "picture/doc.png",
-                },
-                "file": {
-                    "icon": "picture/java.png",
-                },
-                "function": {
-                    "icon": "picture/function.png",
+            success: function (data) {
+                console.log(data)
+                if (data === "ok") {
+                    $.getJSON("test.json", function (result) {
+                        // console.log(result)
+                        jsonArray = result
+                        // console.log(jsonArray)
+                        jsonArray[0].parent = "#"
+                        drawJsTree(jsonArray)
+                    })
                 }
             }
         })
-    }
-
-    $.getJSON("test.json", function (result) {
-        // console.log(result)
-        jsonArray = result
-        // console.log(jsonArray)
-        jsonArray[0].parent = "#"
-        drawJsTree(jsonArray)
     })
+</script>
+<div id="jstree"></div>
 
-
+<script>
     // drawJsTree()
     var jstree = document.getElementById("jstree")
     jstree.onclick = function (ev) {
@@ -60,20 +80,28 @@
         if (target.nodeName.toLocaleLowerCase() == 'a') {
             console.log(target.id)
             let id = target.id.split("_")[0]
-            console.log(id)
 
-            $.get({
-                url: "/test",
-                data: {
-                    code: id
-                },
-                success: function (data) {
-                    console.log(data)
+            for (let i = 0; i < jsonArray.length; i++) {
+                if (jsonArray[i].id = id) {
+                    if (jsonArray[i].type = "function") {
+                        console.log(id)
+                        $.post({
+                            url: "test",
+                            data: {
+                                status: "2",
+                                code: id
+                            },
+                            success: function (data) {
+                                console.log(data)
+                            }
+                        })
+                    }
                 }
-            })
+            }
         }
     }
 </script>
-dsadasdasdsada
 </body>
 </html>
+
+
